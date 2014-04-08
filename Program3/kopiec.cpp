@@ -22,14 +22,20 @@ public:
 	}
 	
 	void przywrocKopiec()
-	{
-		make_heap(v->begin(), v->end());
+	{	
+		if(v!=NULL)
+		{
+			make_heap(v->begin(), v->end());
+		}
 	}
 	
 	void usunKorzen()
-	{
-		pop_heap(v->begin(), v->end());
-		v->pop_back();
+	{	
+		if(v!=NULL)
+		{
+			pop_heap(v->begin(), v->end());  //pierwszy na ostatni i usuwa
+			v->pop_back();
+		}
 	}
 	
 	void wyswietl(string sp, string sn, int vk)
@@ -43,20 +49,25 @@ public:
 		
 		
 		//wywolania rekurencyjne odpowiednio rozbudowuja string do czytelnego wyswietlania
-		if(vk < v->size())
+		if(v!=NULL) 
 		{
-			s = sp;
-		    if(sn == cr) s[s.length() - 2] = ' ';
-		    wyswietl(s + cp, cr, 2 * vk + 2);	//wywolanie rekurencyjne funkcji dla prawego wezla kopca
 		
-		    s = s.substr(0,sp.length()-2);
+			if(vk < v->size())
+			{
+				s = sp;
+		   		if(sn == cr) s[s.length() - 2] = ' ';
+		   		wyswietl(s + cp, cr, 2 * vk + 2);	//wywolanie rekurencyjne funkcji dla prawego wezla kopca
 		
-		    cout << s << sn << v->at(vk) << endl;	//wyswietlenie wartosci wezla
+		    	s = s.substr(0,sp.length()-2);
 		
-		    s = sp;
-		    if(sn == cl) s[s.length() - 2] = ' ';
-		    wyswietl(s + cp, cl, 2 * vk + 1);	//wywolanie rekurencyjne funkcji dla lewego wezla kopca
+		    	cout << s << sn << v->at(vk) << endl;	//wyswietlenie wartosci wezla
+		
+		    	s = sp;
+		    	if(sn == cl) s[s.length() - 2] = ' ';
+		    	wyswietl(s + cp, cl, 2 * vk + 1);	//wywolanie rekurencyjne funkcji dla lewego wezla kopca
+			}
 		}
+		
 	}
 };
 
