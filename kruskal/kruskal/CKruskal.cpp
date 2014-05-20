@@ -16,6 +16,15 @@ using namespace std;
 
 class CKruskal
 {
+private:
+		double srednia(double * czasy, int powtorzenia)
+	{
+		double sum = 0;
+		for (int i = 0; i < powtorzenia; i++)
+			sum += czasy[i];
+		return sum / powtorzenia;
+	}
+		
 	list<Node> nodes;
 	int** nodesM;
 	int maxNode = 0;
