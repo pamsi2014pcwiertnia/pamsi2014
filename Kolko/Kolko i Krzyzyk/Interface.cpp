@@ -11,18 +11,22 @@ Interface::Interface()
 int Interface::minimax(int fields[], int player, int glebokosc) {
 
 
-	int min, max;
+	int min, max, k = 0;
 
 	if (_game.getResult()  == 1)
 		return (player == 1) ? 1 : -1;
 
+	if (_game.getResult() == 2)
+		return (player == 2) ? -1 : 1;
+	
 	if (_game.getResult() == 3)
 		return 0;
 
-	(player == 1) ? 2 : 1;
+	player = (player == 1) ? 2 : 1;
+
 	max = (player == 2) ? 65 : -65;
-	
-	if (glebokosc < 2) 
+
+	if (glebokosc < 2)
 	{
 		for (int i = 0; i < 64; i++)
 		if (_game._fields[i] == 0)
@@ -30,7 +34,10 @@ int Interface::minimax(int fields[], int player, int glebokosc) {
 			_game._fields[i] = player;
 			min = minimax(_game._fields, player, glebokosc + 1);
 			_game._fields[i] = 0;
-			if (((player == 2) && (min < max)) || ((player == 1) && (min > max))) max = min;
+			if (((player == 2) && (min < max)) || ((player == 1) && (min > max)))
+			{
+				max = min;
+			}
 		}
 	}
 	return max;
@@ -46,19 +53,23 @@ void Interface::CPUmove(int lvl)
 	//}
 	else
 	{
-		int bestMove=0;
-		int min, max;
-
+		int bestMove;
+		int min;
+		int max;
 		min = -65;
 		for (int i = 0; i < 64; i++)
-		if (_game._fields[i] == 0)
 		{
-			_game._fields[i] = _game.getPlayer();
-			max = minimax(_game._fields, _game.getPlayer(),0);
-			_game._fields[i] = 0;
-			if (max > min)
+
+			if (_game._fields[i] == 0)
 			{
-				min = max; bestMove = i;
+				_game._fields[i] = _game.getPlayer();
+				max = minimax(_game._fields, _game.getPlayer(), 0);
+				_game._fields[i] = 0;
+				if (max > min)
+				{
+					min = max;
+					bestMove = i;
+				}
 			}
 		}
 		if(!_game.makeMove(bestMove))
